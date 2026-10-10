@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BrandGuard</title>
+<style>
+:root{--bg:#f3f5f7;--cd:#fff;--tx:#14202e;--mu:#617085;--bd:#dde3ea;--ac:#0f766e;--hi:#c62828;--md:#b45309;--ok:#15803d;--sb:#0f1c2b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b141f;--cd:#142231;--tx:#e6ecf3;--mu:#92a1b5;--bd:#25384c;--ac:#2dd4bf;--hi:#f87171;--md:#fbbf24;--ok:#4ade80;--sb:#08101a}}
+:root[data-theme="dark"]{--bg:#0b141f;--cd:#142231;--tx:#e6ecf3;--mu:#92a1b5;--bd:#25384c;--ac:#2dd4bf;--hi:#f87171;--md:#fbbf24;--ok:#4ade80;--sb:#08101a}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{display:grid;grid-template-columns:230px 1fr;min-height:100%}
+aside{background:var(--sb);color:#cfd9e4;padding:18px 12px;position:sticky;top:0;height:100vh;overflow:auto}
+aside h1{font-size:19px;margin:0 8px 14px;color:#fff;letter-spacing:.2px}
+aside button.n{display:block;width:100%;text-align:left;background:none;border:0;color:inherit;padding:9px 10px;border-radius:7px;font:inherit;cursor:pointer}
+aside button.n:hover{background:#ffffff14}aside button.n.on{background:#ffffff22;color:#fff;font-weight:600}
+.src{margin:16px 8px 0;font-size:13px}.src div{display:flex;align-items:center;gap:7px;padding:2px 0}
+.dot{width:8px;height:8px;border-radius:50%;background:#888;flex:none}.dot.OK{background:#22c55e}.dot.U{background:#ef4444}.dot.R{background:#f59e0b}
+main{padding:24px;max-width:1000px;width:100%}h2{margin:0 0 4px;font-size:24px}.mu{color:var(--mu);font-size:13px}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:14px;margin:12px 0}
+.card.dismissed{opacity:.45}.card.confirmed{border-left:4px solid var(--hi)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.grow{flex:1;min-width:150px}
+.av{width:42px;height:42px;border-radius:9px;object-fit:cover;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.vs{color:var(--mu);font-size:12px}.sc{text-align:center;color:var(--c);border:2px solid var(--c);border-radius:10px;padding:2px 10px;line-height:1.2}.sc b{font-size:20px;display:block}.sc span{font-size:12px}
+ul{margin:10px 0;padding-left:20px;font-size:14px}
+button.b{font:inherit;font-size:13px;padding:6px 12px;border-radius:7px;border:1px solid var(--bd);background:var(--cd);color:var(--tx);cursor:pointer}
+button.b:hover{border-color:var(--ac)}button.p{background:var(--ac);color:#fff;border-color:var(--ac)}button.p:hover{opacity:.9}
+.warn{background:#fef3c7;color:#78350f;border:1px solid #fcd34d;padding:9px 12px;border-radius:8px;margin:10px 0;font-size:14px}
+.okb{background:#dcfce7;color:#14532d;border:1px solid #86efac;padding:9px 12px;border-radius:8px;margin:10px 0}
+.empty{border:1px dashed var(--bd);border-radius:10px;padding:26px;text-align:center;color:var(--mu);margin:12px 0}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 3px}input,textarea,select{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--bd);border-radius:7px;background:var(--cd);color:var(--tx)}
+select{width:auto}.er{color:var(--hi);font-size:12.5px;margin-top:2px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}.tiles .card{margin:0}.tiles b{font-size:28px;display:block}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}.bar i{display:block;height:14px;background:var(--ac);border-radius:4px}.bar span:first-child{width:90px}
+.chip{display:inline-block;padding:2px 9px;margin:3px;border-radius:99px;font-size:13px;border:1px solid var(--bd);background:var(--cd)}.chip.f{border-color:var(--hi);color:var(--hi)}
+.sp{width:14px;height:14px;border:2px solid #fff6;border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:-2px;animation:r .7s linear infinite}@keyframes r{to{transform:rotate(360deg)}}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.flow div{background:var(--cd);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;font-size:13px}.flow .x{border:2px solid var(--hi);color:var(--hi);font-weight:600}.flow .ar{border:0;background:none;padding:0;color:var(--mu)}
+@media(max-width:760px){#app{grid-template-columns:1fr}aside{position:static;height:auto;display:flex;flex-wrap:wrap;gap:4px;padding:10px}aside h1{width:100%;margin:0}aside button.n{width:auto}.src{display:none}main{padding:14px}.g2{grid-template-columns:1fr}}
+</style></head><body>
+<div id="app"><aside id="nav"></aside><main id="main"></main></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const PL=['Instagram','Facebook','X','LinkedIn'];
+const DEMO={name:'Acme Bank',domain:'acmebank.com',h:{Instagram:['acmebank'],Facebook:['acmebank'],X:['acmebank'],LinkedIn:['acme-bank']},apps:['com.acmebank.mobile'],devs:['Acme Bank Ltd'],desc:'Acme Bank mobile banking: check balances, transfer money and pay bills securely.',logo:''};
+let P=ld('bg_p',null),D=ld('bg_d',[]),page='dash',busy='',BN={},ER={},FL='',LOGO=P?P.logo:'',F={social:{p:'All',s:'All'},app:{s:'All'}};
+const SRC={Instagram:'OK',Facebook:'OK',X:'Unavailable',LinkedIn:'OK','App Store':'OK','Google Play':'Rate limited'};
+const SOCIAL=[
+{p:'Instagram',name:'Acme Bank',h:'acmebank',bio:'Official Acme Bank. Banking made simple.',link:'acmebank.com',age:2400,v:1,logo:'copy'},
+{p:'Instagram',name:'Acme Bank Support Official',h:'acme_support_help',bio:'DM for support! Claim your reward now',link:'bit.ly/acm-help',age:12,v:0,logo:'copy'},
+{p:'Instagram',name:'Acm3 Bank',h:'acm3bank',bio:'Customer giveaway - claim your reward',link:'acme-bank-promo.xyz',age:30,v:0,logo:'copy'},
+{p:'Instagram',name:'Acme Bakery',h:'acmebakery',bio:'Fresh bread daily',link:'acmebakery.com',age:700,v:1,logo:'own'},
+{p:'Facebook',name:'Acme Bank',h:'acmebank',bio:'Official page of Acme Bank',link:'acmebank.com',age:2000,v:1,logo:'copy'},
+{p:'Facebook',name:'Acme  Bank',h:'acme.bank.page',bio:'Loans approved in minutes. DM for support',link:'loan-fast.top',age:45,v:0,logo:'copy'},
+{p:'Facebook',name:'A c m e Bank',h:'acmebank.ofc',bio:'Verify your account to receive rewards',link:'acme-verify.net',age:20,v:0,logo:'copy'},
+{p:'Facebook',name:'Acme Farms',h:'acmefarms',bio:'Fresh organic vegetables',link:'acmefarms.com',age:900,v:1,logo:'own'},
+{p:'LinkedIn',name:'Acme Bank',h:'acme-bank',bio:'Official company page',link:'acmebank.com',age:3000,v:1,logo:'copy'},
+{p:'LinkedIn',name:'Acrne Bank Careers',h:'acrne-bank-jobs',bio:'Apply now - registration fee required',link:'acrne-careers.com',age:25,v:0,logo:'copy'},
+{p:'LinkedIn',name:'Bank of Sunshine',h:'sunshinebank',bio:'Local savings and loans',link:'sunshine.com',age:4000,v:1,logo:'own'},
+{p:'X',name:'Acme_Bank_Care',h:'acmebank_care',bio:'DM for support. Giveaway winners announced',link:'t.co/xx1',age:10,v:0,logo:'copy'},
+{p:'X',name:'Acme Bank',h:'acmebank',bio:'Official Acme Bank news',link:'acmebank.com',age:2200,v:1,logo:'copy'},
+{p:'Instagram',name:'Acme Bank Rewards',h:'acmebankrewards',bio:'Free giveaway - claim your reward',link:'win-acme.click',age:8,v:0,logo:'copy'}];
+const APPS=[
+{n:'Acme Bank',id:'com.acmebank.mobile',dev:'Acme Bank Ltd',desc:'Acme Bank mobile banking: check balances, transfer money and pay bills securely.'},
+{n:'Acme Bank Rewards',id:'com.fastcash.acmerewards',dev:'FastCash Apps',desc:'Acme Bank login and rewards. Enter your Acme Bank credentials to check balances and claim cash.'},
+{n:'AcmeBank Wallet',id:'com.xyz.wallet',dev:'Xyz Dev',desc:'Manage money in one wallet.'},
+{n:'Acme Bank Support Chat',id:'com.helpdesk.acme',dev:'QuickHelp LLC',desc:'Chat for Acme Bank customers. Pay bills and transfer money fast.'},
+{n:'Acrne Bank Mobile',id:'com.acrne.bank',dev:'Mobile Tools Co',desc:'Banking app.'},
+{n:'Acme Farms Market',id:'com.acmefarms.shop',dev:'Acme Farms Co',desc:'Order fresh vegetables.'},
+{n:'Bank of Sunshine',id:'com.sunshine.bank',dev:'Sunshine Savings',desc:'Local savings and loans.'},
+{n:'Weather Pro',id:'com.wx.pro',dev:'Wx Inc',desc:'Forecasts and radar.'}];
+/* ---------- detection utils ---------- */
+const HOM={0:'o',1:'l',3:'e',4:'a',5:'s','@':'a','$':'s'},SUS=['official','support','care','help','login','reward','giveaway','verify','wallet','customer','service'],BIO=['giveaway','claim','reward','dm for','verify','registration fee','loans approved','send money'];
+const normalize=s=>String(s).toLowerCase().replace(/[01345@$]/g,c=>HOM[c]).replace(/rn/g,'m').replace(/vv/g,'w').replace(/[^a-z]/g,'');
+function lev(a,b){const m=[];for(let i=0;i<=a.length;i++)m[i]=[i];for(let j=1;j<=b.length;j++)m[0][j]=j;
+for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++){m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]==b[j-1]?0:1));
+if(i>1&&j>1&&a[i-1]==b[j-2]&&a[i-2]==b[j-1])m[i][j]=Math.min(m[i][j],m[i-2][j-2]+1)}return m[a.length][b.length]}
+const similarity=(a,b)=>{const l=Math.max(a.length,b.length);return l?1-lev(a,b)/l:0};
+function nameCheck(brand,cand){const b=normalize(brand),c=normalize(cand);if(b.length<3||!c)return{s:0};
+if(c===b)return{s:1,r:cand===brand?'Same name as the brand':'Same name once spacing, symbols and look-alike characters are normalised'};
+if(c.includes(b)){const h=SUS.filter(w=>c.replace(b,'').includes(w));if(h.length)return{s:.95,r:'Brand name plus suspicious word "'+h[0]+'"'}}
+const s=similarity(b,c);if(b.length>=5&&s>=.85)return{s,r:'Name '+Math.round(s*100)+'% similar to the brand'};return{s:0}}
+const SEV=s=>s>=75?'High':s>=50?'Medium':null;
+function scoreAccount(a,p){if((p.h[a.p]||[]).some(x=>x.toLowerCase()===a.h.toLowerCase()))return null;
+const n1=nameCheck(p.name,a.name),n2=nameCheck(p.name,a.h),n=n1.s>=n2.s?n1:n2;if(!n.s)return null;
+let sc=n.s*40,r=[n.r];const kw=BIO.filter(w=>a.bio.toLowerCase().includes(w));
+if(kw.length){sc+=20;r.push('Bio contains scam wording: '+kw.slice(0,2).join(', '))}
+if(!a.link.toLowerCase().includes(p.domain)){sc+=15;r.push('Links to non-official domain: '+a.link)}
+if(a.age<90){sc+=10;r.push('New account ('+a.age+' days old)')}if(!a.v){sc+=5;r.push('No verified badge')}
+if(a.logo==='copy'){sc+=10;r.push('Profile logo matches the official logo')}return{score:Math.round(sc),reasons:r}}
+const jac=(a,b)=>{const t=s=>new Set((s||'').toLowerCase().match(/[a-z]{3,}/g)||[]),x=t(a),y=t(b);if(!x.size||!y.size)return 0;let i=0;x.forEach(w=>y.has(w)&&i++);return i/(x.size+y.size-i)};
+function scoreApp(a,p){if(p.apps.includes(a.id)||p.devs.some(d=>d.toLowerCase()===(a.dev||'').toLowerCase()))return null;
+const n=nameCheck(p.name,a.n);if(!n.s)return null;let sc=n.s*40+30,r=[n.r,'Developer "'+a.dev+'" is not an official publisher (official: '+(p.devs.join(', ')||'none set')+')'];
+if(normalize(a.desc).includes(normalize(p.name))){sc+=15;r.push('Description mentions the brand but comes from a different developer')}
+const j=jac(a.desc,p.desc);if(j>=.15){sc+=Math.min(15,Math.round(j*40));r.push('Description '+Math.round(j*100)+'% similar to the official app text')}
+return{score:Math.min(100,Math.round(sc)),reasons:r}}
+/* ---------- scans ---------- */
+function merge(kind,out){const old=Object.fromEntries(D.filter(d=>d.kind===kind).map(d=>[d.id,d.st]));D=D.filter(d=>d.kind!==kind).concat(out.map(o=>({...o,st:old[o.id]||'new'})));sv('bg_d',D)}
+function scanSocial(){const down=[],out=[];SOCIAL.forEach(a=>{if(SRC[a.p]!=='OK'){if(!down.includes(a.p))down.push(a.p);return}
+const r=scoreAccount(a,P);if(!r||!SEV(r.score))return;out.push({id:'s:'+a.p+':'+a.h,kind:'social',plat:a.p,title:a.name,sub:'@'+a.h+' on '+a.p,logo:a.logo==='copy',score:r.score,sev:SEV(r.score),reasons:r.reasons,h:a.h})});
+merge('social',out);BN.social=down.length?down.join(', ')+(down.length>1?' are':' is')+' unavailable, results from other sources are shown.':''}
+function runSoc(){busy='social';draw();setTimeout(()=>{scanSocial();busy='';draw()},600)}
+async function runApps(){busy='app';draw();let apps,w='';
+try{const c=new AbortController();setTimeout(()=>c.abort(),4000);const r=await fetch('https://itunes.apple.com/search?entity=software&limit=25&term='+encodeURIComponent(P.name),{signal:c.signal});if(!r.ok)throw 0;
+apps=(await r.json()).results.map(x=>({n:x.trackName,id:x.bundleId,dev:x.sellerName,desc:x.description||''}));if(!apps.length)throw 0;SRC['App Store']='OK'}
+catch(e){apps=APPS;SRC['App Store']='Unavailable';w='App Store is unavailable, showing demo data.'}
+const out=[];apps.forEach(a=>{const r=scoreApp(a,P);if(!r||!SEV(r.score))return;out.push({id:'a:'+a.id,kind:'app',plat:'App Store',title:a.n,sub:a.id+' by '+a.dev,logo:false,score:r.score,sev:SEV(r.score),reasons:r.reasons,h:a.id})});
+merge('app',out);BN.app=w;busy='';draw()}
+async function demo(){P=JSON.parse(JSON.stringify(DEMO));LOGO='';sv('bg_p',P);D=[];sv('bg_d',D);scanSocial();await runApps();page='dash';draw()}
+function act(id,t){const d=D.find(x=>x.id===id);if(!d)return;
+if(t==='o'){if(d.kind==='social'){(P.h[d.plat]=P.h[d.plat]||[]).push(d.h)}else P.apps.push(d.h);sv('bg_p',P);D=D.filter(x=>x.id!==id)}else d.st=t==='c'?'confirmed':'dismissed';sv('bg_d',D);draw()}
+/* ---------- views ---------- */
+const hue=n=>'hsl('+([...n].reduce((a,c)=>a+c.charCodeAt(0),0)*37%360)+',50%,42%)';
+const av=(n,logo,same)=>logo?'<img class="av" alt="" src="'+logo+'">':'<div class="av" style="background:'+(same?'#0f766e':hue(n))+'">'+esc(n.trim()[0]||'?')+'</div>';
+const cnt=k=>D.filter(d=>d.st===k).length;
+function card(d){const c=d.sev==='High'?'var(--hi)':'var(--md)';
+return '<div class="card '+d.st+'"><div class="row">'+av(P.name,P.logo,1)+'<span class="vs">official vs</span>'+av(d.title,d.logo?P.logo:'',d.logo)+'<div class="grow"><b>'+esc(d.title)+'</b><div class="mu">'+esc(d.sub)+'</div></div><div class="sc" style="--c:'+c+'"><b>'+d.score+'</b><span>'+d.sev+'</span></div></div><ul>'+d.reasons.map(r=>'<li>'+esc(r)+'</li>').join('')+'</ul><div class="row"><span class="mu">Status: '+d.st+'</span><span class="grow"></span><button class="b" onclick="act(\''+d.id+'\',\'c\')">Confirm threat</button><button class="b" onclick="act(\''+d.id+'\',\'d\')">Dismiss</button><button class="b" onclick="act(\''+d.id+'\',\'o\')">Mark as official</button></div></div>'}
+function listH(kind){let L=D.filter(d=>d.kind===kind);const f=F[kind];if(f.p&&f.p!=='All')L=L.filter(d=>d.plat===f.p);if(f.s!=='All')L=L.filter(d=>d.sev===f.s);L.sort((a,b)=>b.score-a.score);
+return L.length?L.map(card).join(''):'<div class="empty">No detections to show. Click Run scan to check for look-alikes.</div>'}
+const need=()=>'<div class="empty">Set up your brand profile first so BrandGuard knows which assets are official.<br><br><button class="b p" onclick="go(\'profile\')">Open brand profile</button> <button class="b" onclick="demo()">Load demo and scan</button></div>';
+const btn=(k,fn,t)=>'<button class="b p" '+(busy?'disabled':'')+' onclick="'+fn+'">'+(busy===k?'<span class="sp"></span> Scanning...':t)+'</button>';
+const sevSel=k=>'<select onchange="F.'+k+'.s=this.value;draw()">'+['All','High','Medium'].map(x=>'<option '+(F[k].s===x?'selected':'')+'>'+x+'</option>').join('')+'</select>';
+const PAGES={
+dash(){if(!P)return '<h2>Dashboard</h2>'+need();const by={};D.forEach(d=>by[d.plat]=(by[d.plat]||0)+1);const mx=Math.max(1,...Object.values(by));
+return '<h2>Dashboard</h2><div class="mu">Monitoring '+esc(P.name)+'</div><div class="row" style="margin:12px 0"><button class="b p" onclick="demo()">Demo mode</button><span class="mu">Loads the demo brand and runs both scans.</span></div><div class="tiles"><div class="card"><b>'+D.length+'</b>Total detections</div><div class="card"><b style="color:var(--hi)">'+D.filter(d=>d.sev==='High').length+'</b>High severity</div><div class="card"><b>'+cnt('confirmed')+'</b>Confirmed threats</div><div class="card"><b>'+cnt('dismissed')+'</b>Dismissed</div></div>'
++'<div class="card"><b>Detections by platform</b>'+(Object.keys(by).length?Object.entries(by).map(([k,v])=>'<div class="bar"><span>'+k+'</span><i style="width:'+v/mx*60+'%"></i><span>'+v+'</span></div>').join(''):'<div class="mu">No scans yet.</div>')+'</div>'
++'<h3>Latest detections</h3>'+(D.length?[...D].sort((a,b)=>b.score-a.score).slice(0,5).map(card).join(''):'<div class="empty">Nothing yet. Run a social or app scan.</div>')},
+profile(){const p=P||{name:'',domain:'',h:{},apps:[],devs:[],desc:''},e=k=>ER[k]?'<div class="er">'+ER[k]+'</div>':'';
+return '<h2>Brand profile</h2><div class="mu">Everything listed here is treated as official and never flagged.</div>'+(FL?'<div class="okb">'+FL+'</div>':'')+'<div class="card"><div class="row"><button class="b" onclick="loadDemo()">Load demo brand</button></div>'
++'<div class="g2"><div><label>Brand name</label><input id="f_name" value="'+esc(p.name)+'">'+e('name')+'</div><div><label>Official domain</label><input id="f_dom" placeholder="acmebank.com" value="'+esc(p.domain)+'">'+e('dom')+'</div></div>'
++'<label>Official logo</label><div class="row"><div id="prev">'+(LOGO?'<img class="av" alt="" src="'+LOGO+'">':av(p.name||'?','',1))+'</div><input type="file" id="f_logo" accept="image/*" style="width:auto" onchange="logoUp(this)"></div>'+e('logo')
++'<label>Official social handles (comma separated)</label><div class="g2">'+PL.map(x=>'<div><div class="mu">'+x+'</div><input id="f_h'+x+'" placeholder="acmebank" value="'+esc((p.h[x]||[]).join(', '))+'">'+e('h'+x)+'</div>').join('')+'</div>'
++'<label>Official apps (iOS bundle ID / Android package, comma or new line)</label><textarea id="f_apps" rows="2" placeholder="com.acmebank.mobile">'+esc(p.apps.join('\n'))+'</textarea>'+e('apps')
++'<label>Official developer names (one per line)</label><textarea id="f_devs" rows="2">'+esc(p.devs.join('\n'))+'</textarea>'
++'<label>Official app description (optional, used for text matching)</label><textarea id="f_desc" rows="2">'+esc(p.desc||'')+'</textarea><div class="row" style="margin-top:14px"><button class="b p" onclick="saveP()">Save profile</button></div></div>'},
+social(){return '<h2>Social media monitoring</h2><div class="mu">Fake profiles, fake pages and scam accounts using the brand identity.</div>'+(P?(BN.social?'<div class="warn">'+BN.social+'</div>':'')+'<div class="row" style="margin:12px 0">'+btn('social','runSoc()','Run scan')+'<select onchange="F.social.p=this.value;draw()">'+['All',...PL].map(x=>'<option '+(F.social.p===x?'selected':'')+'>'+x+'</option>').join('')+'</select>'+sevSel('social')+'</div>'+listH('social'):need())},
+apps(){return '<h2>App store monitoring</h2><div class="mu">Apps that copy the name, branding or description of official apps.</div>'+(P?(BN.app?'<div class="warn">'+BN.app+'</div>':'')+'<div class="row" style="margin:12px 0">'+btn('app','runApps()','Run scan')+sevSel('app')+'</div>'+listH('app'):need())},
+look(){const b=(window.LB||(P&&P.name)||'Acme Bank');return '<h2>Look-alike generator</h2><div class="mu">Variations a scammer might register. Red chips would be flagged; grey chips are not.</div><div class="card"><label>Brand name</label><input id="lb" value="'+esc(b)+'" oninput="window.LB=this.value;$(\'#gen\').innerHTML=genH(this.value)"><div id="gen">'+genH(b)+'</div></div>'
++'<div class="card"><label>Test a name</label><div class="row"><input id="tn" style="flex:1" placeholder="Acm3 Bank"><button class="b p" onclick="testN()">Check</button></div><div id="tr" class="mu" style="margin-top:8px"></div></div>'
++'<div class="card"><b>Built-in checks (brand: Acme Bank)</b>'+[['Acm3 Bank',1],['Acrne Bank',1],['Acme  Bank',1],['Acme Bank Support Official',1],['Acme Farms',0],['Acme Bakery',0],['Bank of Sunshine',0]].map(([n,x])=>{const ok=!!nameCheck('Acme Bank',n).s===!!x;return '<div>'+(ok?'✅':'❌')+' '+esc(n)+' → '+(x?'flagged':'not flagged')+'</div>'}).join('')+'</div>'},
+arch(){const bx=t=>'<div>'+t+'</div>',ar='<div class="ar">→</div>';return '<h2>Architecture</h2><div class="mu">How data moves from official assets to a reviewed detection.</div><div class="card flow">'+bx('Brand profile')+ar+bx('Collectors<br>Social · App stores')+ar+bx('Normalizer')+ar+'<div class="x">Official-asset exclusion</div>'+ar+bx('Detection engine<br>name · logo · publisher · text')+ar+bx('Scoring (0-100)')+ar+bx('Storage (localStorage)')+ar+bx('Dashboard and review')+'</div><div class="card"><b>Notes</b><ul><li>Official handles, bundle IDs and developers are removed before any scoring.</li><li>Every source has a health status; unavailable sources are skipped and reported in a banner.</li><li>Each detection stores readable reasons so analysts can confirm, dismiss or mark it official.</li></ul></div>'}};
+function genH(b){const s=normalize(b.replace(/[0-9]/g,'')).length?b.toLowerCase().replace(/\s+/g,''):'';if(s.length<3)return '<div class="mu">Enter at least 3 characters.</div>';const G={'Character swaps':[],'Look-alike characters':[],'Added words':[],'Spacing changes':[],'Repeated letters':[]},M={o:'0',l:'1',e:'3',a:'4',m:'rn',i:'1'};
+for(let i=0;i<s.length-1&&G['Character swaps'].length<6;i++)if(s[i]!==s[i+1])G['Character swaps'].push(s.slice(0,i)+s[i+1]+s[i]+s.slice(i+2));
+for(let i=0;i<s.length&&G['Look-alike characters'].length<6;i++)if(M[s[i]])G['Look-alike characters'].push(s.slice(0,i)+M[s[i]]+s.slice(i+1));
+SUS.slice(0,5).forEach(w=>{G['Added words'].push(s+w);G['Added words'].push(b+' '+w)});
+for(let i=1;i<s.length&&G['Spacing changes'].length<5;i++)G['Spacing changes'].push(s.slice(0,i)+' '+s.slice(i));
+for(let i=0;i<s.length&&G['Repeated letters'].length<5;i++)G['Repeated letters'].push(s.slice(0,i+1)+s[i]+s.slice(i+1));
+return Object.entries(G).map(([k,v])=>'<div style="margin-top:10px"><b>'+k+'</b><div>'+[...new Set(v)].map(x=>'<span class="chip '+(nameCheck(b,x).s?'f':'')+'">'+esc(x)+'</span>').join('')+'</div></div>').join('')}
+function testN(){const b=$('#lb').value,n=$('#tn').value,r=nameCheck(b,n);$('#tr').innerHTML=!n?'Type a name to test.':r.s?'<b style="color:var(--hi)">Flagged:</b> '+esc(r.r):'<b style="color:var(--ok)">Not flagged:</b> too different from the brand name to look like an impersonation.'}
+/* ---------- profile actions ---------- */
+function logoUp(i){const f=i.files[0];ER.logo='';if(!f)return;if(f.size>300000){ER.logo='Logo must be under 300 KB';draw();return}const r=new FileReader();r.onload=()=>{LOGO=r.result;$('#prev').innerHTML='<img class="av" alt="" src="'+LOGO+'">'};r.readAsDataURL(f)}
+function loadDemo(){P=JSON.parse(JSON.stringify(DEMO));LOGO='';sv('bg_p',P);FL='Demo brand loaded.';ER={};draw()}
+function saveP(){const g=id=>$('#'+id).value.trim(),e={},name=g('f_name'),dom=g('f_dom').toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+if(name.length<3)e.name='Brand name must be at least 3 characters.';if(!/^([a-z0-9-]+\.)+[a-z]{2,}$/.test(dom))e.dom='Enter a valid domain such as acmebank.com.';
+const h={};PL.forEach(p=>{const l=g('f_h'+p).split(',').map(x=>x.trim().replace(/^@/,'')).filter(Boolean),bad=l.find(x=>!/^[A-Za-z0-9._-]{2,30}$/.test(x));
+if(bad)e['h'+p]='Invalid handle "'+bad+'". Use letters, numbers, dots, underscores or dashes.';else if(new Set(l.map(x=>x.toLowerCase())).size<l.length)e['h'+p]='The same handle is listed twice.';h[p]=l});
+const apps=g('f_apps').split(/[\n,]+/).map(x=>x.trim()).filter(Boolean),ba=apps.find(x=>!/^[A-Za-z][\w]*(\.[A-Za-z][\w]*)+$/.test(x));if(ba)e.apps='"'+ba+'" is not a valid app ID. Use a format like com.company.app.';
+ER=e;FL='';if(Object.keys(e).length){draw();return}
+P={name,domain:dom,h,apps,devs:g('f_devs').split('\n').map(x=>x.trim()).filter(Boolean),desc:g('f_desc'),logo:LOGO};sv('bg_p',P);FL='Profile saved: official assets will be excluded from detections.';draw()}
+/* ---------- shell ---------- */
+const go=p=>{page=p;FL=p==='profile'?FL:'';draw();scrollTo(0,0)};
+function draw(){const N=[['dash','Dashboard'],['profile','Brand profile'],['social','Social monitoring'],['apps','App store monitoring'],['look','Look-alike generator'],['arch','Architecture']];
+$('#nav').innerHTML='<h1>🛡️ BrandGuard</h1>'+N.map(([k,t])=>'<button class="n '+(page===k?'on':'')+'" onclick="go(\''+k+'\')">'+t+'</button>').join('')+'<div class="src"><b>Source health</b>'+Object.entries(SRC).map(([k,v])=>'<div><span class="dot '+(v==='OK'?'OK':v==='Unavailable'?'U':'R')+'"></span>'+k+': '+v+'</div>').join('')+'</div>';
+const m=$('#main');const sx=document.activeElement&&document.activeElement.id;m.innerHTML=PAGES[page]();ER=page==='profile'?ER:{}}
+draw();
+</script></body></html>
